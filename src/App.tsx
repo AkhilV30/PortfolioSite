@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { useTheme } from './hooks/useTheme';
-import ThemeToggle from './components/ThemeToggle';
 import Hero from './components/Hero';
 import About from './components/About';
 import NotableProjects from './components/NotableProjects';

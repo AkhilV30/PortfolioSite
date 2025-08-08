@@ -21,8 +21,7 @@ function App() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} />
-      <Hero isDark={isDark} />
+      <Hero isDark={isDark} toggleTheme={toggleTheme} />
       <About isDark={isDark} />
       <NotableProjects isDark={isDark} />
       <OtherProjects isDark={isDark} />

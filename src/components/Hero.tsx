@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Sun, Moon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 interface HeroProps {
   isDark: boolean;
+  toggleTheme: () => void;
 }
 
 const TypingAnimation = ({ isDark }: { isDark: boolean }) => {
@@ -67,7 +68,7 @@ const TypingAnimation = ({ isDark }: { isDark: boolean }) => {
   );
 };
 
-const Hero = ({ isDark }: HeroProps) => {
+const Hero = ({ isDark, toggleTheme }: HeroProps) => {
   const scrollToProjects = () => {
     document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -125,6 +126,32 @@ const Hero = ({ isDark }: HeroProps) => {
               {item.name}
             </motion.button>
           ))}
+          
+          {/* Theme Toggle */}
+          <motion.button
+            onClick={toggleTheme}
+            className={`p-2 rounded-full transition-all duration-300 hover:scale-105 ${
+              isDark 
+                ? 'text-gray-300 hover:text-white hover:bg-white/10' 
+                : 'text-gray-700 hover:text-black hover:bg-black/10'
+            }`}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 1.1 }}
+            whileHover={{ 
+              scale: 1.1,
+              transition: { duration: 0.2 }
+            }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <motion.div
+              initial={false}
+              animate={{ rotate: isDark ? 0 : 180 }}
+              transition={{ duration: 0.3 }}
+            >
+              {isDark ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+            </motion.div>
+          </motion.button>
         </div>
       </motion.nav>
       

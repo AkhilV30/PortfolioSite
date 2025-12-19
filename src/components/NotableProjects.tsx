@@ -22,7 +22,7 @@ const NotableProjects = ({ isDark }: NotableProjectsProps) => {
       codeUrl: "#"
     },
     {
-      title: "EdgeScout",
+      title: "FishyLottery",
       description: "ScoutIQ uses computer vision + basic biomechanics analysis to analyze short video clips of athletes and generate insights about their performance, technique, and potential — just from smartphone-recorded footage.",
       status: "In Progress",
       statusColor: "bg-yellow-500 text-black",
@@ -30,15 +30,7 @@ const NotableProjects = ({ isDark }: NotableProjectsProps) => {
       demoUrl: "#",
       codeUrl: "#"
     },
-    {
-      title: "Client Property Site",
-      description: "High-conversion property showcase website built to highlight premium short-term rental experiences. Designed with a clean, elegant aesthetic, the site offers potential guests an immersive and user-friendly way to explore the property, check availability, and book their stay seamlessly.",
-      status: "In Progress",
-      statusColor: "bg-yellow-500 text-black",
-      techStack: ["React", "Node.js", "MongoDB", "WebRTC", "Docker"],
-      demoUrl: "#",
-      codeUrl: "#"
-    }
+    
   ];
 
   return (

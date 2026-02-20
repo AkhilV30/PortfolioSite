@@ -110,7 +110,7 @@ const Footer = ({ isDark }: FooterProps) => {
             }}
           >
             <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-              © {new Date().getFullYear()} Akhil Vishnubhotla. Built with purpose. Contact me on my contact number.
+              © {new Date().getFullYear()} Akhil Vishnubhotla. Built with purpose.
             </p>
           </motion.div>
         </motion.div>

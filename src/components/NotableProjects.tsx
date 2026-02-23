@@ -23,11 +23,10 @@ const NotableProjects = ({ isDark }: NotableProjectsProps) => {
     },
     {
       title: "FishyLottery",
-      description: "ScoutIQ uses computer vision + basic biomechanics analysis to analyze short video clips of athletes and generate insights about their performance, technique, and potential — just from smartphone-recorded footage.",
+      description: "FishyLottery is a Java-based event lottery application that allows users to create, manage, and participate in event-based draws. It was designed with structured UML planning, backend logic in Java, and integrated APIs to handle event management and mapping functionality.",
       status: "Done",
       statusColor: "bg-green-500 text-black",
       techStack: ["Figma", "UML", "Java", "Maps API"],
-      
       codeUrl: "https://github.com/CMPUT301F25static1/static1-events"
     },
     

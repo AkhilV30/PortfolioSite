@@ -13,20 +13,20 @@ const NotableProjects = ({ isDark }: NotableProjectsProps) => {
 
   const projects = [
     {
-      title: "Spectrum Sports Platform",
-      description: "A community-first sports platform designed to give fans an unfiltered space to connect, debate, and engage — all in real time. It combines social interaction with live commentary, fan-driven content, and reputation-based rewards to create the ultimate digital arena for sports enthusiasts",
+      title: "ScoutIQ",
+      description: "ScoutIQ is an AI-powered platform that allows athletes to upload training videos and receive intelligent performance insights. Using computer vision and machine learning, it analyzes technique, movement patterns, and biomechanics to generate actionable feedback directly from smartphone-recorded footage.",
       status: "In Progress",
       statusColor: "bg-yellow-500 text-black",
-      techStack: ["React", "TypeScript", "Python", "TensorFlow", "Tailwind CSS"],
+      techStack: ["JavaScript", "TypeScript", "Python", "TensorFlow", "OpenCV"],
       demoUrl: "#",
       codeUrl: "#"
     },
     {
       title: "FishyLottery",
       description: "ScoutIQ uses computer vision + basic biomechanics analysis to analyze short video clips of athletes and generate insights about their performance, technique, and potential — just from smartphone-recorded footage.",
-      status: "In Progress",
-      statusColor: "bg-yellow-500 text-black",
-      techStack: ["Next.js", "PostgreSQL", "Prisma", "Chart.js", "Stripe API"],
+      status: "Done",
+      statusColor: "bg-green-500 text-black",
+      techStack: ["Figma", "UML", "Java", "Maps API"],
       demoUrl: "#",
       codeUrl: "#"
     },
@@ -80,7 +80,7 @@ const NotableProjects = ({ isDark }: NotableProjectsProps) => {
               ease: [0.25, 0.46, 0.45, 0.94]
             }}
           >
-            Original work showcasing innovation, technical depth, and real-world impact
+            Work showcasing innovation, technical depth, and real-world impact
           </motion.p>
         </motion.div>
 

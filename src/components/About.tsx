@@ -138,75 +138,9 @@ const About = ({ isDark }: AboutProps) => {
             >
               I enjoy learning new things, improving quickly, and working toward
               making an impact through what I work on. Outside of academics and
-              coursework, I watch and play sports and follow geopolitics.
+              coursework, I watch and play multiple sports.
             </motion.p>
           </div>
-
-          <motion.div
-            className="flex justify-center mt-12"
-            initial={{ opacity: 0, y: 40 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{
-              duration: 0.8,
-              delay: 0.8,
-              ease: [0.25, 0.46, 0.45, 0.94],
-            }}
-          >
-            <motion.a
-              href="/resume.pdf"
-              download="Akhil_Vishnubhotla_Resume.pdf"
-              className={`group px-8 py-4 rounded-full font-medium text-lg transition-all duration-500 relative overflow-hidden ${
-                isDark
-                  ? 'bg-white text-black hover:bg-gray-200 border-2 border-transparent hover:border-gray-300'
-                  : 'bg-black text-white hover:bg-gray-800 border-2 border-transparent hover:border-gray-700'
-              }`}
-              whileHover={{
-                scale: 1.08,
-                y: -4,
-                transition: { duration: 0.3, ease: [0.4, 0, 0.6, 1] },
-              }}
-              whileTap={{
-                scale: 0.96,
-                transition: { duration: 0.1 },
-              }}
-            >
-              <motion.div
-                className={`absolute inset-0 ${
-                  isDark
-                    ? 'bg-gradient-to-r from-gray-200 to-white'
-                    : 'bg-gradient-to-r from-gray-700 to-black'
-                }`}
-                initial={{ x: '-100%' }}
-                whileHover={{ x: '100%' }}
-                transition={{ duration: 0.8, ease: [0.4, 0, 0.6, 1] }}
-              />
-              <span className="relative z-10 flex items-center gap-2">
-                Download Resume
-                <motion.div
-                  animate={{ y: [0, -2, 0] }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  }}
-                >
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    />
-                  </svg>
-                </motion.div>
-              </span>
-            </motion.a>
-          </motion.div>
         </motion.div>
       </div>
     </section>

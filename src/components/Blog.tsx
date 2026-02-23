@@ -83,7 +83,7 @@ const Blog = ({ isDark }: BlogProps) => {
               ease: [0.25, 0.46, 0.45, 0.94]
             }}
           >
-            My thoughts on sports, tech and world affairs.
+            My thoughts on sports, tech and general affairs.
           </motion.p>
           
           <motion.a

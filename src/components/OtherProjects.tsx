@@ -13,7 +13,7 @@ const OtherProjects = ({ isDark }: OtherProjectsProps) => {
 
   const projects = [
     {
-      title: "VishBlogs",
+      title: "MyBlog",
       description: `My personal blog where I share sharp takes on tech, sports, AI, and health.
 Each post includes a like/dislike feature, view counter, and a comment section for discussion.
 Clean design, quick reads, and real opinions — all in one place.`,
@@ -24,11 +24,11 @@ Clean design, quick reads, and real opinions — all in one place.`,
       codeUrl: "#"
     },
     {
-      title: "Improved E-commerce Frontend",
-      description: "Modified and optimized an existing e-commerce template with better performance, accessibility features, and modern payment integration.",
-      status: "Modified",
-      statusColor: "bg-purple-500 text-white",
-      techStack: ["Vue.js", "Vuex", "SCSS", "Stripe", "PWA"],
+      title: "GuessMyElo",
+      description: "An ML-powered chess predictor that estimates a player's Elo rating based on a small sequence of opening and mid-game moves. The model analyzes move quality, positional decisions, and tactical patterns to generate a skill rating prediction.",
+      status: "Completed",
+      statusColor: "bg-green-500 text-black",
+      techStack: ["Python", "Scikit-learn", "Pandas", "NumPy", "React"],
       demoUrl: "#",
       codeUrl: "#"
     },

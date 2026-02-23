@@ -27,8 +27,8 @@ const NotableProjects = ({ isDark }: NotableProjectsProps) => {
       status: "Done",
       statusColor: "bg-green-500 text-black",
       techStack: ["Figma", "UML", "Java", "Maps API"],
-      demoUrl: "#",
-      codeUrl: "#"
+      
+      codeUrl: "https://github.com/CMPUT301F25static1/static1-events"
     },
     
   ];

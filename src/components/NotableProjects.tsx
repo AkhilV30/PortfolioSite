@@ -1,6 +1,5 @@
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { useInView } from 'framer-motion';
 import ProjectCard from './ProjectCard';
 
 interface NotableProjectsProps {
@@ -9,85 +8,69 @@ interface NotableProjectsProps {
 
 const NotableProjects = ({ isDark }: NotableProjectsProps) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-150px" });
+  const isInView = useInView(ref, { once: true, margin: '-150px' });
 
   const projects = [
     {
-      title: "ScoutIQ",
-      description: "ScoutIQ is an AI-powered platform that allows athletes to upload training videos and receive intelligent performance insights. Using computer vision and machine learning, it analyzes technique, movement patterns, and biomechanics to generate actionable feedback directly from smartphone-recorded footage.",
-      status: "In Progress",
-      statusColor: "bg-yellow-500 text-black",
-      techStack: ["JavaScript", "TypeScript", "Python", "TensorFlow", "OpenCV"],
-      demoUrl: "#",
-      codeUrl: "#"
+      title: 'ScoutIQ',
+      description:
+        'ScoutIQ is an AI-powered platform that allows athletes to upload training videos and receive intelligent performance insights. Using computer vision and machine learning, it analyzes technique, movement patterns, and biomechanics to generate actionable feedback directly from smartphone-recorded footage.',
+      status: 'In Progress',
+      techStack: ['JavaScript', 'TypeScript', 'Python', 'TensorFlow', 'OpenCV'],
+      demoUrl: '#',
+      codeUrl: '#',
     },
     {
-      title: "FishyLottery",
-      description: "FishyLottery is a Java-based event lottery application that allows users to create, manage, and participate in event-based draws. It was designed with structured UML planning, backend logic in Java, and integrated APIs to handle event management and mapping functionality.",
-      status: "Done",
-      statusColor: "bg-green-500 text-black",
-      techStack: ["Figma", "UML", "Java", "Maps API"],
-      codeUrl: "https://github.com/CMPUT301F25static1/static1-events"
+      title: 'FishyLottery',
+      description:
+        'FishyLottery is a Java-based event lottery application that allows users to create, manage, and participate in event-based draws. It was designed with structured UML planning, backend logic in Java, and integrated APIs to handle event management and mapping functionality.',
+      status: 'Done',
+      techStack: ['Figma', 'UML', 'Java', 'Maps API'],
+      codeUrl: 'https://github.com/CMPUT301F25static1/static1-events',
     },
-    
   ];
 
   return (
-    <section id="projects" className={`py-24 px-6 ${
-      isDark 
-        ? 'bg-gradient-to-b from-dark-800 to-black' 
-        : 'bg-gradient-to-b from-gray-50 to-white'
-    }`}>
+    <section
+      id="projects"
+      className={`py-24 px-6 ${
+        isDark
+          ? 'bg-gradient-to-b from-zinc-900 to-black'
+          : 'bg-gradient-to-b from-zinc-50 to-white'
+      }`}
+    >
       <div className="max-w-7xl mx-auto">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 80, scale: 0.95 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ 
-            duration: 1, 
-            ease: [0.25, 0.46, 0.45, 0.94],
-            scale: { duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }
-          }}
-        >
-          <motion.h2 
-            className={`text-4xl md:text-5xl font-bold mb-4 text-center bg-gradient-to-r bg-clip-text text-transparent ${
-            isDark ? 'from-white to-gray-400' : 'from-black to-gray-600'
-          }`}
-            initial={{ opacity: 0, y: 30, letterSpacing: '0.1em' }}
-            animate={isInView ? { 
-              opacity: 1, 
-              y: 0, 
-              letterSpacing: 'normal' 
-            } : {}}
-            transition={{ 
-              duration: 0.8, 
-              delay: 0.2,
-              ease: [0.25, 0.46, 0.45, 0.94]
-            }}
+        {/* Header */}
+        <div ref={ref} className="text-center mb-16">
+          <motion.h2
+            className={`text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r bg-clip-text text-transparent ${
+              isDark ? 'from-white to-zinc-400' : 'from-zinc-900 to-zinc-600'
+            }`}
+            initial={{ opacity: 0, y: 24 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           >
             Notable Projects
           </motion.h2>
-          <motion.p 
-            className={`text-center mb-16 max-w-2xl mx-auto ${
-            isDark ? 'text-gray-400' : 'text-gray-600'
-          }`}
-            initial={{ opacity: 0, y: 20 }}
+
+          <motion.p
+            className={`max-w-xl mx-auto text-sm leading-relaxed ${
+              isDark ? 'text-zinc-400' : 'text-zinc-500'
+            }`}
+            initial={{ opacity: 0, y: 16 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ 
-              duration: 0.6, 
-              delay: 0.4,
-              ease: [0.25, 0.46, 0.45, 0.94]
-            }}
+            transition={{ duration: 0.6, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
           >
             Work showcasing innovation, technical depth, and real-world impact
           </motion.p>
-        </motion.div>
+        </div>
 
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        {/* Grid */}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          transition={{ duration: 0.5, delay: 0.35 }}
         >
           {projects.map((project, index) => (
             <ProjectCard key={index} {...project} index={index} isDark={isDark} />

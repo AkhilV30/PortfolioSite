@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Sun, Moon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -7,357 +7,314 @@ interface HeroProps {
   toggleTheme: () => void;
 }
 
+// Original typing animation with blinking cursor
 const TypingAnimation = ({ isDark }: { isDark: boolean }) => {
+  const words = ['Builder.', 'Developer.', 'Sports Enthusiast.'];
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [wordIndex, setWordIndex] = useState(0);
-  
-  const words = ['Builder.', 'Developer.', 'Sports Enthusiast.'];
-  
+
   useEffect(() => {
     const currentWord = words[wordIndex];
-    const shouldDelete = isDeleting && displayText.length > 0;
     const shouldType = !isDeleting && displayText.length < currentWord.length;
-    
+    const shouldDelete = isDeleting && displayText.length > 0;
+
     if (shouldType) {
-      const timeout = setTimeout(() => {
-        setDisplayText(currentWord.slice(0, displayText.length + 1));
-      }, 100);
-      return () => clearTimeout(timeout);
+      const t = setTimeout(() => setDisplayText(currentWord.slice(0, displayText.length + 1)), 100);
+      return () => clearTimeout(t);
     }
-    
     if (shouldDelete) {
-      const timeout = setTimeout(() => {
-        setDisplayText(currentWord.slice(0, displayText.length - 1));
-      }, 50);
-      return () => clearTimeout(timeout);
+      const t = setTimeout(() => setDisplayText(currentWord.slice(0, displayText.length - 1)), 50);
+      return () => clearTimeout(t);
     }
-    
     if (!isDeleting && displayText === currentWord) {
-      const timeout = setTimeout(() => {
-        setIsDeleting(true);
-      }, 2000);
-      return () => clearTimeout(timeout);
+      const t = setTimeout(() => setIsDeleting(true), 2000);
+      return () => clearTimeout(t);
     }
-    
     if (isDeleting && displayText === '') {
       setIsDeleting(false);
-      setWordIndex((prev) => (prev + 1) % words.length);
+      setWordIndex(prev => (prev + 1) % words.length);
     }
-  }, [displayText, isDeleting, wordIndex, words]);
-  
+  }, [displayText, isDeleting, wordIndex]);
+
   return (
-    <motion.p
-      className="font-medium tracking-wide h-12 flex items-center justify-center"
-      animate={{ y: [0, -2, 0] }}
-      transition={{ 
-        duration: 4, 
-        repeat: Infinity, 
-        ease: [0.4, 0, 0.6, 1] 
-      }}
-    >
-      {displayText}
-      <motion.span
-        className={`ml-1 ${isDark ? 'text-white' : 'text-black'}`}
-        animate={{ opacity: [1, 0, 1] }}
-        transition={{ duration: 1, repeat: Infinity }}
+    <div className="h-10 flex items-center justify-center">
+      <span
+        className={`text-xl font-light tracking-[0.1em] ${
+          isDark ? 'text-zinc-400' : 'text-zinc-500'
+        }`}
+        style={{ fontFamily: "'DM Sans', sans-serif" }}
       >
-        |
-      </motion.span>
-    </motion.p>
+        {displayText}
+        <motion.span
+          animate={{ opacity: [1, 0, 1] }}
+          transition={{ duration: 0.9, repeat: Infinity }}
+          className={isDark ? 'text-zinc-300' : 'text-zinc-600'}
+        >
+          |
+        </motion.span>
+      </span>
+    </div>
   );
 };
 
+// SVG self-drawing underline
+const DrawUnderline = ({ isDark }: { isDark: boolean }) => (
+  <motion.svg
+    viewBox="0 0 240 8"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-48 mx-auto mt-2"
+    initial="hidden"
+    animate="visible"
+  >
+    <motion.path
+      d="M4 5 C60 1, 120 7, 180 3 C210 1, 228 4, 236 4"
+      stroke={isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.18)'}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      variants={{
+        hidden: { pathLength: 0, opacity: 0 },
+        visible: {
+          pathLength: 1,
+          opacity: 1,
+          transition: { duration: 1.2, delay: 1.4, ease: [0.22, 1, 0.36, 1] },
+        },
+      }}
+    />
+  </motion.svg>
+);
+
+// Subtle grid background
+const GridBackground = ({ isDark }: { isDark: boolean }) => (
+  <div
+    className="absolute inset-0 pointer-events-none"
+    style={{
+      backgroundImage: isDark
+        ? `linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+           linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)`
+        : `linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+           linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px)`,
+      backgroundSize: '72px 72px',
+      maskImage: 'radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 100%)',
+      WebkitMaskImage: 'radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 100%)',
+    }}
+  />
+);
+
+// Single floating orb — restrained, slow
+const Orb = ({ isDark }: { isDark: boolean }) => (
+  <motion.div
+    className="absolute pointer-events-none"
+    style={{
+      top: '20%',
+      left: '60%',
+      width: 480,
+      height: 480,
+      borderRadius: '50%',
+      background: isDark
+        ? 'radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)'
+        : 'radial-gradient(circle, rgba(0,0,0,0.04) 0%, transparent 70%)',
+      filter: 'blur(40px)',
+    }}
+    animate={{ x: [0, -40, 0], y: [0, 30, 0] }}
+    transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+  />
+);
+
+// Nav items
+const NAV_ITEMS = [
+  { name: 'About', id: 'about' },
+  { name: 'Projects', id: 'projects' },
+  { name: 'Blog', id: 'blog' },
+  { name: 'Contact', id: 'contact' },
+];
+
 const Hero = ({ isDark, toggleTheme }: HeroProps) => {
-  const scrollToProjects = () => {
-    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+  const scrollTo = (id: string) => {
+    if (id === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
+    else document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const scrollToSection = (sectionId: string) => {
-    if (sectionId === 'home') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  // Reveal name letter-by-letter
+  const name = 'Akhil Vishnubhotla';
+  const letters = name.split('');
 
   return (
-    <section className={`min-h-screen flex items-center justify-center relative overflow-hidden ${
-      isDark 
-        ? 'bg-gradient-to-br from-black via-gray-900 to-black' 
-        : 'bg-gradient-to-br from-white via-gray-50 to-white'
-    }`}>
-      
-      {/* Navigation Menu */}
+    <section
+      className={`min-h-screen flex flex-col relative overflow-hidden ${
+        isDark ? 'bg-zinc-950' : 'bg-zinc-50'
+      }`}
+    >
+      <GridBackground isDark={isDark} />
+      <Orb isDark={isDark} />
+
+      {/* ── NAV ── */}
       <motion.nav
-        className="fixed top-6 right-6 z-50"
-        initial={{ opacity: 0, y: -20 }}
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-5"
+        initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.5 }}
+        transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div className={`flex items-center gap-8 px-6 py-3 rounded-full backdrop-blur-md border ${
-          isDark 
-            ? 'bg-black/20 border-gray-700/50' 
-            : 'bg-white/20 border-gray-300/50'
-        }`}>
-          {[
-            { name: 'Home', id: 'home' },
-            { name: 'About Me', id: 'about' },
-            { name: 'Blog', id: 'blog' },
-            { name: 'Contact', id: 'contact' }
-          ].map((item, index) => (
+        {/* Logo mark */}
+        <button
+          onClick={() => scrollTo('home')}
+          className={`text-sm font-bold tracking-[0.25em] uppercase transition-opacity hover:opacity-60 ${
+            isDark ? 'text-zinc-100' : 'text-zinc-900'
+          }`}
+          style={{ fontFamily: "'DM Serif Display', serif" }}
+        >
+          AV
+        </button>
+
+        {/* Pills */}
+        <div
+          className={`flex items-center gap-1 px-2 py-1.5 rounded-full border backdrop-blur-md ${
+            isDark
+              ? 'border-zinc-800 bg-zinc-900/70'
+              : 'border-zinc-200 bg-white/70'
+          }`}
+        >
+          {NAV_ITEMS.map((item, i) => (
             <motion.button
               key={item.id}
-              onClick={() => scrollToSection(item.id)}
-              className={`text-sm font-medium transition-all duration-300 hover:scale-105 ${
-                isDark 
-                  ? 'text-gray-300 hover:text-white' 
-                  : 'text-gray-700 hover:text-black'
+              onClick={() => scrollTo(item.id)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.35 + i * 0.07 }}
+              className={`px-4 py-1.5 rounded-full text-xs font-medium tracking-wide transition-all duration-200 ${
+                isDark
+                  ? 'text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800'
+                  : 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100'
               }`}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.7 + index * 0.1 }}
-              whileHover={{ 
-                scale: 1.05,
-                transition: { duration: 0.2 }
-              }}
-              whileTap={{ scale: 0.95 }}
             >
               {item.name}
             </motion.button>
           ))}
-          
-          {/* Theme Toggle */}
+
+          {/* Divider */}
+          <div className={`w-px h-4 mx-1 ${isDark ? 'bg-zinc-700' : 'bg-zinc-300'}`} />
+
+          {/* Theme toggle */}
           <motion.button
             onClick={toggleTheme}
-            className={`p-2 rounded-full transition-all duration-300 hover:scale-105 ${
-              isDark 
-                ? 'text-gray-300 hover:text-white hover:bg-white/10' 
-                : 'text-gray-700 hover:text-black hover:bg-black/10'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.72 }}
+            className={`p-1.5 rounded-full transition-all duration-200 ${
+              isDark
+                ? 'text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800'
+                : 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100'
             }`}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.1 }}
-            whileHover={{ 
-              scale: 1.1,
-              transition: { duration: 0.2 }
-            }}
             whileTap={{ scale: 0.9 }}
           >
-            <motion.div
-              initial={false}
-              animate={{ rotate: isDark ? 0 : 180 }}
-              transition={{ duration: 0.3 }}
-            >
-              {isDark ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
-            </motion.div>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={isDark ? 'moon' : 'sun'}
+                initial={{ opacity: 0, rotate: -45, scale: 0.7 }}
+                animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                exit={{ opacity: 0, rotate: 45, scale: 0.7 }}
+                transition={{ duration: 0.2 }}
+              >
+                {isDark ? <Moon className="w-3.5 h-3.5" /> : <Sun className="w-3.5 h-3.5" />}
+              </motion.div>
+            </AnimatePresence>
           </motion.button>
         </div>
       </motion.nav>
-      
-      {/* Animated gradient background */}
-      <div className="absolute inset-0 opacity-30">
+
+      {/* ── HERO CONTENT ── */}
+      <div className="flex-1 flex flex-col items-center justify-center px-6 pt-20 pb-24">
+
+        {/* AV Monogram */}
         <motion.div
-          className={`absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl ${
-            isDark 
-              ? 'bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500' 
-              : 'bg-gradient-to-r from-purple-300 via-blue-300 to-cyan-300'
-          }`}
-          animate={{
-            x: [0, 100, -50, 0],
-            y: [0, -100, 50, 0],
-            scale: [1, 1.2, 0.8, 1],
-            rotate: [0, 180, 360],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className={`absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full blur-3xl ${
-            isDark 
-              ? 'bg-gradient-to-r from-pink-500 via-red-500 to-orange-500' 
-              : 'bg-gradient-to-r from-pink-300 via-red-300 to-orange-300'
-          }`}
-          animate={{
-            x: [0, -80, 60, 0],
-            y: [0, 80, -40, 0],
-            scale: [1, 0.9, 1.1, 1],
-            rotate: [360, 180, 0],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className={`absolute top-1/2 right-1/3 w-64 h-64 rounded-full blur-2xl ${
-            isDark 
-              ? 'bg-gradient-to-r from-green-500 via-teal-500 to-blue-500' 
-              : 'bg-gradient-to-r from-green-300 via-teal-300 to-blue-300'
-          }`}
-          animate={{
-            x: [0, 120, -80, 0],
-            y: [0, -60, 40, 0],
-            scale: [1, 1.3, 0.7, 1],
-            rotate: [0, 270, 540],
-          }}
-          transition={{
-            duration: 30,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-      </div>
-      
-      <motion.div 
-        className="text-center z-10 px-6 max-w-4xl mx-auto"
-        initial={{ opacity: 0, y: 60, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ 
-          duration: 1.2, 
-          ease: [0.25, 0.46, 0.45, 0.94],
-          scale: { duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }
-        }}
-      >
-        {/* AV Logo matching the design */}
-        <motion.div
-          className={`w-[28rem] h-[28rem] mx-auto mb-12 flex items-center justify-center relative select-none ${
-            isDark 
-              ? 'text-white' 
-              : 'text-black'
-          }`}
-          initial={{ opacity: 0, scale: 0.8 }}
+          className="relative mb-8 select-none"
+          initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ 
-            duration: 1.2, 
-            delay: 0.3,
-            ease: [0.25, 0.46, 0.45, 0.94]
-          }}
+          transition={{ duration: 0.9, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
-          {/* Simple AV Logo matching uploaded design */}
-          <div 
-            className="text-[14rem] font-black tracking-wider"
+          <div
+            className={`font-black leading-none ${isDark ? 'text-zinc-100' : 'text-zinc-900'}`}
             style={{
-              fontWeight: 900,
-              fontFamily: 'serif',
+              fontFamily: "'DM Serif Display', serif",
+              fontSize: 'clamp(7rem, 22vw, 16rem)',
+              letterSpacing: '-0.04em',
             }}
           >
             AV
           </div>
+
+          {/* Self-drawing SVG underline */}
+          <DrawUnderline isDark={isDark} />
         </motion.div>
 
-        {/* Name */}
-        <motion.h1 
-          className={`text-4xl md:text-6xl font-bold mb-8 tracking-wide ${
-            isDark ? 'text-white' : 'text-black'
-          }`}
-          initial={{ opacity: 0, y: 40, letterSpacing: '0.5em' }}
-          animate={{ opacity: 1, y: 0, letterSpacing: 'normal' }}
-          transition={{ 
-            duration: 1, 
-            delay: 0.6,
-            letterSpacing: { duration: 1.2, ease: [0.4, 0, 0.6, 1] },
-            ease: [0.25, 0.46, 0.45, 0.94]
-          }}
-        >
-          Akhil Vishnubhotla
-        </motion.h1>
-        
-        {/* Three word description with typing animation */}
+        {/* Name — letter by letter */}
+        <div className="mb-5 overflow-hidden">
+          <motion.h1
+            className={`flex flex-wrap justify-center gap-x-[0.22em] ${
+              isDark ? 'text-zinc-300' : 'text-zinc-600'
+            }`}
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 'clamp(1rem, 2.5vw, 1.35rem)',
+              fontWeight: 300,
+              letterSpacing: '0.18em',
+            }}
+            aria-label={name}
+          >
+            {letters.map((char, i) => (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.4,
+                  delay: 0.9 + i * 0.028,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                style={{ display: 'inline-block', whiteSpace: char === ' ' ? 'pre' : 'normal' }}
+              >
+                {char === ' ' ? '\u00A0' : char.toUpperCase()}
+              </motion.span>
+            ))}
+          </motion.h1>
+        </div>
+
+        {/* Word cycler */}
         <motion.div
-          className={`text-2xl md:text-3xl font-light mb-16 ${
-            isDark ? 'text-gray-300' : 'text-gray-700'
-          }`}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ 
-            duration: 0.8, 
-            delay: 0.8,
-            y: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }
-          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 1.6 }}
+          className=""
         >
           <TypingAnimation isDark={isDark} />
         </motion.div>
 
-        {/* View My Work Button */}
-        <motion.div
-          className="mb-16"
-          initial={{ opacity: 0, y: 30, scale: 0.9 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ 
-            duration: 0.8, 
-            delay: 1.0,
-            ease: [0.25, 0.46, 0.45, 0.94]
-          }}
-        >
-          <motion.button
-            onClick={scrollToProjects}
-            className={`group px-8 py-4 rounded-full font-medium text-lg transition-all duration-500 relative overflow-hidden ${
-              isDark 
-                ? 'bg-white text-black hover:bg-gray-200 border-2 border-transparent hover:border-gray-300' 
-                : 'bg-black text-white hover:bg-gray-800 border-2 border-transparent hover:border-gray-700'
-            }`}
-            whileHover={{ 
-              scale: 1.08, 
-              y: -4,
-              transition: { duration: 0.3, ease: [0.4, 0, 0.6, 1] }
-            }}
-            whileTap={{ 
-              scale: 0.96,
-              transition: { duration: 0.1 }
-            }}
-          >
-            <motion.div
-              className={`absolute inset-0 ${
-                isDark 
-                  ? 'bg-gradient-to-r from-gray-200 to-white' 
-                  : 'bg-gradient-to-r from-gray-700 to-black'
-              }`}
-              initial={{ x: '-100%' }}
-              whileHover={{ x: '100%' }}
-              transition={{ duration: 0.8, ease: [0.4, 0, 0.6, 1] }}
-            />
-            <span className="relative z-10 flex items-center gap-2">
-              View My Work
-              <motion.div
-                animate={{ x: [0, 4, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              >
-                →
-              </motion.div>
-            </span>
-          </motion.button>
-        </motion.div>
-      </motion.div>
 
-      <motion.div 
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ 
-          duration: 1, 
-          delay: 1.8,
-          y: { duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }
-        }}
-        whileHover={{ 
-          scale: 1.3,
-          transition: { duration: 0.3, ease: [0.4, 0, 0.6, 1] }
-        }}
-        onClick={scrollToProjects}
+      </div>
+
+      {/* ── SCROLL INDICATOR ── */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 cursor-pointer"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2.4 }}
+        onClick={() => scrollTo('about')}
       >
-        <motion.div
-          animate={{ y: [0, 12, 0], opacity: [0.6, 1, 0.6] }}
-          transition={{ 
-            duration: 2.5, 
-            repeat: Infinity, 
-            ease: [0.4, 0, 0.6, 1]
-          }}
+        <motion.span
+          className={`text-[10px] tracking-[0.2em] uppercase ${
+            isDark ? 'text-zinc-600' : 'text-zinc-400'
+          }`}
         >
-          <ChevronDown className={`w-6 h-6 ${isDark ? 'text-gray-400' : 'text-gray-600'}`} />
+          Scroll
+        </motion.span>
+        <motion.div
+          animate={{ y: [0, 5, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <ChevronDown
+            className={`w-4 h-4 ${isDark ? 'text-zinc-600' : 'text-zinc-400'}`}
+          />
         </motion.div>
       </motion.div>
     </section>

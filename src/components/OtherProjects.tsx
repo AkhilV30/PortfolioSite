@@ -33,11 +33,11 @@ Clean design, quick reads, and real opinions — all in one place.`,
       codeUrl: "#"
     },
     {
-      title: "Enhanced Portfolio Template",
-      description: "Customized and improved a portfolio template with advanced animations, better mobile responsiveness, and modern design patterns.",
+      title: "ASMR Physics Games",
+      description: "A set of satisfying physics-based mini games built to feel smooth, responsive, and visually pleasing. Focused on clean motion, realistic collisions, and interactive simulations using Python game development and physics logic.",
       status: "Completed & Live",
       statusColor: "bg-green-500 text-black",
-      techStack: ["Gatsby", "GraphQL", "Framer Motion", "Netlify CMS"],
+      techStack: ["Python", "Pygame", "Physics Simulation", "Collision Detection"],
       demoUrl: "#",
       codeUrl: "#"
     }

@@ -8,13 +8,13 @@ interface NotableProjectsProps {
 
 const NotableProjects = ({ isDark }: NotableProjectsProps) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-150px' });
+  const isInView = useInView(ref, { once: true, margin: '-80px' });
 
   const projects = [
     {
       title: 'ScoutIQ',
       description:
-        'ScoutIQ is an AI-powered platform that allows athletes to upload training videos and receive intelligent performance insights. Using computer vision and machine learning, it analyzes technique, movement patterns, and biomechanics to generate actionable feedback directly from smartphone-recorded footage.',
+        "ScoutIQ is an AI-powered platform that allows athletes to upload training videos and receive intelligent performance insights. Using computer vision and machine learning, it analyzes technique, movement patterns, and biomechanics to generate actionable feedback directly from smartphone-recorded footage.",
       status: 'In Progress',
       techStack: ['JavaScript', 'TypeScript', 'Python', 'TensorFlow', 'OpenCV'],
       demoUrl: '#',
@@ -33,44 +33,51 @@ const NotableProjects = ({ isDark }: NotableProjectsProps) => {
   return (
     <section
       id="projects"
-      className={`py-24 px-6 ${
-        isDark
-          ? 'bg-gradient-to-b from-zinc-900 to-black'
-          : 'bg-gradient-to-b from-zinc-50 to-white'
-      }`}
+      className={`py-28 px-6 ${isDark ? 'bg-zinc-900' : 'bg-white'}`}
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div ref={ref} className="text-center mb-16">
-          <motion.h2
-            className={`text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r bg-clip-text text-transparent ${
-              isDark ? 'from-white to-zinc-400' : 'from-zinc-900 to-zinc-600'
-            }`}
-            initial={{ opacity: 0, y: 24 }}
+        <div ref={ref}>
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className={`text-xs font-semibold tracking-[0.2em] uppercase mb-6 ${
+              isDark ? 'text-zinc-500' : 'text-zinc-400'
+            }`}
           >
             Notable Projects
+          </motion.p>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 18 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.55, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+            className={`mb-4 leading-tight ${isDark ? 'text-zinc-100' : 'text-zinc-900'}`}
+            style={{
+              fontFamily: "'DM Serif Display', serif",
+              fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
+            }}
+          >
+            Work that ships.
           </motion.h2>
 
           <motion.p
-            className={`max-w-xl mx-auto text-sm leading-relaxed ${
-              isDark ? 'text-zinc-400' : 'text-zinc-500'
-            }`}
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 14 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.5, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
+            className={`mb-12 text-sm ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}
           >
-            Work showcasing innovation, technical depth, and real-world impact
+            Projects showcasing innovation, technical depth, and real-world impact.
           </motion.p>
         </div>
 
         {/* Grid */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 gap-5"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.35 }}
+          transition={{ duration: 0.4, delay: 0.24 }}
         >
           {projects.map((project, index) => (
             <ProjectCard key={index} {...project} index={index} isDark={isDark} />

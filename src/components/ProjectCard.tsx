@@ -13,27 +13,26 @@ interface ProjectCardProps {
   isDark: boolean;
 }
 
-const getStatusBadgeClasses = (status: string, isDark: boolean) => {
+const getStatusBadge = (status: string, isDark: boolean) => {
   const s = status.trim().toLowerCase();
-
   if (s === "done" || s === "completed" || s === "completed & live" || s === "complete") {
     return isDark
-      ? "bg-emerald-500/15 text-emerald-400 ring-1 ring-emerald-500/30"
+      ? "bg-emerald-500/10 text-emerald-400 ring-1 ring-emerald-500/20"
       : "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200";
   }
   if (s === "in progress" || s === "ongoing" || s === "building") {
     return isDark
-      ? "bg-amber-500/15 text-amber-400 ring-1 ring-amber-500/30"
+      ? "bg-amber-500/10 text-amber-400 ring-1 ring-amber-500/20"
       : "bg-amber-50 text-amber-700 ring-1 ring-amber-200";
   }
   if (s === "modified" || s === "enhanced" || s === "refactor") {
     return isDark
-      ? "bg-violet-500/15 text-violet-400 ring-1 ring-violet-500/30"
+      ? "bg-violet-500/10 text-violet-400 ring-1 ring-violet-500/20"
       : "bg-violet-50 text-violet-700 ring-1 ring-violet-200";
   }
   return isDark
-    ? "bg-zinc-500/15 text-zinc-400 ring-1 ring-zinc-500/30"
-    : "bg-zinc-100 text-zinc-600 ring-1 ring-zinc-200";
+    ? "bg-zinc-700/60 text-zinc-400 ring-1 ring-zinc-600"
+    : "bg-zinc-100 text-zinc-500 ring-1 ring-zinc-200";
 };
 
 const GitHubIcon = ({ className }: { className?: string }) => (
@@ -42,146 +41,134 @@ const GitHubIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const ExternalLinkIcon = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+const ArrowUpRight = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={className}>
     <path d="M7 17L17 7M17 7H7M17 7v10" />
   </svg>
 );
 
 const LayersIcon = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" className={className}>
     <path d="M12 2L2 7l10 5 10-5-10-5z" />
     <path d="M2 17l10 5 10-5" />
     <path d="M2 12l10 5 10-5" />
   </svg>
 );
 
-const ChevronIcon = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+const ChevronDown = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" className={className}>
     <path d="M6 9l6 6 6-6" />
   </svg>
 );
 
 const ProjectCard = ({
-  title,
-  description,
-  status,
-  statusColor,
-  techStack,
-  demoUrl,
-  codeUrl,
-  index,
-  isDark,
+  title, description, status, statusColor,
+  techStack, demoUrl, codeUrl, index, isDark,
 }: ProjectCardProps) => {
   const [stackOpen, setStackOpen] = useState(false);
 
-  const badgeClasses = statusColor ?? getStatusBadgeClasses(status, isDark);
-
-  const btnBase =
-    "flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all duration-200 select-none";
-
-  const btnOutline = isDark
-    ? "ring-1 ring-white/[0.12] text-zinc-300 hover:bg-white/[0.08] hover:text-white"
-    : "ring-1 ring-zinc-200 text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900";
-
-  const btnFilled = isDark
-    ? "bg-white text-zinc-900 hover:bg-zinc-100"
-    : "bg-zinc-900 text-white hover:bg-zinc-700";
-
-  const btnActiveOutline = isDark
-    ? "bg-white/[0.12] text-white ring-1 ring-white/20"
-    : "bg-zinc-900 text-white ring-1 ring-zinc-900";
-
+  const badgeClasses = statusColor ?? getStatusBadge(status, isDark);
   const hasCode = codeUrl && codeUrl !== "#";
   const hasDemo = demoUrl && demoUrl !== "#";
 
+  const btnBase = "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all duration-150 select-none";
+
+  const btnGhost = isDark
+    ? "border border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-zinc-200 hover:bg-zinc-800"
+    : "border border-zinc-200 text-zinc-500 hover:border-zinc-400 hover:text-zinc-800 hover:bg-zinc-50";
+
+  const btnSolid = isDark
+    ? "bg-zinc-100 text-zinc-900 hover:bg-white"
+    : "bg-zinc-900 text-zinc-50 hover:bg-zinc-700";
+
+  const btnActive = isDark
+    ? "border border-zinc-500 text-zinc-200 bg-zinc-800"
+    : "border border-zinc-400 text-zinc-900 bg-zinc-100";
+
+  const btnDisabled = "opacity-30 cursor-not-allowed pointer-events-none";
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 28 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ y: -5, transition: { duration: 0.2, ease: "easeOut" } }}
-      className={`group relative flex flex-col rounded-2xl border p-6 transition-all duration-300 ${
+      transition={{ duration: 0.4, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -3, transition: { duration: 0.18, ease: "easeOut" } }}
+      className={`flex flex-col rounded-xl border p-5 transition-colors duration-200 ${
         isDark
-          ? "border-white/[0.08] bg-white/[0.04] hover:border-white/[0.14] hover:bg-white/[0.07] shadow-xl shadow-black/20"
-          : "border-black/[0.07] bg-white hover:border-black/[0.12] hover:shadow-xl hover:shadow-black/[0.06] shadow-md shadow-black/[0.04]"
+          ? "border-zinc-800 bg-zinc-900 hover:border-zinc-700"
+          : "border-zinc-200 bg-white hover:border-zinc-300 shadow-sm hover:shadow-md"
       }`}
     >
-      {/* Title + status badge */}
-      <div className="flex items-start justify-between gap-4">
+      {/* Top row */}
+      <div className="flex items-start justify-between gap-3 mb-3">
         <h3
-          className={`text-lg font-semibold leading-snug tracking-tight ${
-            isDark ? "text-white" : "text-zinc-900"
+          className={`text-base font-semibold leading-snug tracking-tight ${
+            isDark ? "text-zinc-100" : "text-zinc-900"
           }`}
+          style={{ fontFamily: "'DM Sans', sans-serif" }}
         >
           {title}
         </h3>
-        <span
-          className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold tracking-wide uppercase ${badgeClasses}`}
-        >
+        <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wide uppercase whitespace-nowrap ${badgeClasses}`}>
           {status}
         </span>
       </div>
 
       {/* Description */}
-      <p
-        className={`mt-3 text-sm leading-relaxed flex-1 ${
-          isDark ? "text-zinc-400" : "text-zinc-500"
-        }`}
-      >
+      <p className={`text-sm leading-[1.7] flex-1 mb-5 ${isDark ? "text-zinc-400" : "text-zinc-500"}`}>
         {description}
       </p>
 
-      {/* Hairline divider */}
-      <div className={`mt-5 h-px w-full ${isDark ? "bg-white/[0.07]" : "bg-zinc-100"}`} />
+      {/* Divider */}
+      <div className={`h-px mb-4 ${isDark ? "bg-zinc-800" : "bg-zinc-100"}`} />
 
-      {/* Buttons row */}
-      <div className="mt-4 flex items-center gap-2 flex-wrap">
-        {/* Stack toggle */}
+      {/* Buttons */}
+      <div className="flex items-center gap-2 flex-wrap">
+        {/* Stack */}
         <button
-          onClick={() => setStackOpen((v) => !v)}
-          className={`${btnBase} ${stackOpen ? btnActiveOutline : btnOutline}`}
+          onClick={() => setStackOpen(v => !v)}
+          className={`${btnBase} ${stackOpen ? btnActive : btnGhost}`}
           aria-expanded={stackOpen}
         >
           <LayersIcon className="h-3.5 w-3.5" />
           Stack
           <motion.span
             animate={{ rotate: stackOpen ? 180 : 0 }}
-            transition={{ duration: 0.22, ease: "easeInOut" }}
-            className="flex items-center"
+            transition={{ duration: 0.2 }}
+            className="flex"
           >
-            <ChevronIcon className="h-3 w-3" />
+            <ChevronDown className="h-3 w-3" />
           </motion.span>
         </button>
 
         {/* Code */}
-        {hasCode ? (
-          <a href={codeUrl} target="_blank" rel="noreferrer" className={`${btnBase} ${btnOutline}`}>
-            <GitHubIcon className="h-3.5 w-3.5" />
-            Code
-          </a>
-        ) : (
-          <span className={`${btnBase} ${btnOutline} opacity-40 cursor-not-allowed`} title="Code not available yet">
-            <GitHubIcon className="h-3.5 w-3.5" />
-            Code
-          </span>
-        )}
+        <a
+          href={hasCode ? codeUrl : "https://github.com"}
+          target="_blank"
+          rel="noreferrer"
+          className={`${btnBase} ${btnGhost} ${!hasCode ? btnDisabled : ""}`}
+          tabIndex={hasCode ? 0 : -1}
+          aria-disabled={!hasCode}
+        >
+          <GitHubIcon className="h-3.5 w-3.5" />
+          Code
+        </a>
 
         {/* Demo */}
         {hasDemo ? (
-          <a href={demoUrl} target="_blank" rel="noreferrer" className={`${btnBase} ${btnFilled}`}>
-            <ExternalLinkIcon className="h-3.5 w-3.5" />
+          <a href={demoUrl} target="_blank" rel="noreferrer" className={`${btnBase} ${btnSolid}`}>
+            <ArrowUpRight className="h-3.5 w-3.5" />
             Demo
           </a>
         ) : (
-          <span className={`${btnBase} ${btnFilled} opacity-40 cursor-not-allowed`} title="Demo not available yet">
-            <ExternalLinkIcon className="h-3.5 w-3.5" />
+          <span className={`${btnBase} ${btnSolid} ${btnDisabled}`}>
+            <ArrowUpRight className="h-3.5 w-3.5" />
             Demo
           </span>
         )}
       </div>
 
-      {/* Animated stack panel */}
+      {/* Stack panel */}
       <AnimatePresence initial={false}>
         {stackOpen && (
           <motion.div
@@ -189,26 +176,20 @@ const ProjectCard = ({
             initial={{ opacity: 0, height: 0, marginTop: 0 }}
             animate={{ opacity: 1, height: "auto", marginTop: 12 }}
             exit={{ opacity: 0, height: 0, marginTop: 0 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
-            <div
-              className={`rounded-xl p-3 ${
-                isDark
-                  ? "bg-white/[0.05] ring-1 ring-white/[0.08]"
-                  : "bg-zinc-50 ring-1 ring-zinc-100"
-              }`}
-            >
+            <div className={`rounded-lg p-3 ${isDark ? "bg-zinc-800/80" : "bg-zinc-50"}`}>
               <div className="flex flex-wrap gap-1.5">
                 {techStack.map((t, i) => (
                   <motion.span
                     key={t}
-                    initial={{ opacity: 0, scale: 0.82 }}
+                    initial={{ opacity: 0, scale: 0.88 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.16, delay: i * 0.045 }}
-                    className={`rounded-md px-2.5 py-1 text-[11px] font-medium tracking-wide ${
+                    transition={{ duration: 0.14, delay: i * 0.035 }}
+                    className={`rounded-md px-2.5 py-1 text-[11px] font-medium ${
                       isDark
-                        ? "bg-white/[0.08] text-zinc-300 ring-1 ring-white/[0.1]"
+                        ? "bg-zinc-700 text-zinc-300"
                         : "bg-white text-zinc-700 ring-1 ring-zinc-200"
                     }`}
                   >

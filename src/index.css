@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -169,6 +170,16 @@ body {
 *:focus {
   outline: 2px solid rgba(255, 255, 255, 0.3);
   outline-offset: 2px;
+}
+
+/* Metallic AV shimmer sweep */
+@keyframes metalShimmer {
+  0%, 25%  { background-position: 250% 50%; }
+  75%, 100% { background-position: -250% 50%; }
+}
+
+.av-shimmer {
+  animation: metalShimmer 7s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
 }
 
 /* Performance optimizations */

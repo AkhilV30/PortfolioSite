@@ -1,5 +1,5 @@
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ChevronDown, Sun, Moon, ArrowRight } from 'lucide-react';
+import { ChevronDown, Sun, Moon } from 'lucide-react';
 import { useEffect, useState, useRef, useCallback } from 'react';
 
 interface HeroProps {
@@ -147,10 +147,9 @@ const ScanLine = ({ isDark }: { isDark: boolean }) => (
   />
 );
 
-// ─── 3-D tilt + glitch AV monogram ──────────────────────────────────────────
+// ─── 3-D tilt + metallic shimmer AV monogram ────────────────────────────────
 const AVMonogram = ({ isDark }: { isDark: boolean }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [glitch, setGlitch] = useState(false);
 
   const rawX = useMotionValue(0);
   const rawY = useMotionValue(0);
@@ -172,31 +171,26 @@ const AVMonogram = ({ isDark }: { isDark: boolean }) => {
     rawY.set(0);
   }, [rawX, rawY]);
 
-  const handleMouseEnter = useCallback(() => {
-    setGlitch(true);
-    setTimeout(() => setGlitch(false), 400);
-  }, []);
-
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     el.addEventListener('mousemove', handleMouseMove);
     el.addEventListener('mouseleave', handleMouseLeave);
-    el.addEventListener('mouseenter', handleMouseEnter);
     return () => {
       el.removeEventListener('mousemove', handleMouseMove);
       el.removeEventListener('mouseleave', handleMouseLeave);
-      el.removeEventListener('mouseenter', handleMouseEnter);
     };
-  }, [handleMouseMove, handleMouseLeave, handleMouseEnter]);
+  }, [handleMouseMove, handleMouseLeave]);
 
+  // Metallic gradient with wide backgroundSize — animated via CSS class `.av-shimmer`
   const fontStyle: React.CSSProperties = {
     fontFamily: "'DM Serif Display', serif",
     fontSize: 'clamp(7rem, 22vw, 16rem)',
     letterSpacing: '-0.04em',
     background: isDark
-      ? 'linear-gradient(135deg, #e4e4e7 0%, #a1a1aa 40%, #f4f4f5 65%, #71717a 100%)'
-      : 'linear-gradient(135deg, #18181b 0%, #52525b 40%, #27272a 65%, #3f3f46 100%)',
+      ? 'linear-gradient(90deg, #52525b 0%, #71717a 15%, #a1a1aa 30%, #e4e4e7 44%, #ffffff 50%, #e4e4e7 56%, #a1a1aa 70%, #71717a 85%, #52525b 100%)'
+      : 'linear-gradient(90deg, #27272a 0%, #3f3f46 15%, #52525b 30%, #71717a 44%, #a1a1aa 50%, #71717a 56%, #52525b 70%, #3f3f46 85%, #27272a 100%)',
+    backgroundSize: '400% 100%',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
     backgroundClip: 'text',
@@ -211,57 +205,19 @@ const AVMonogram = ({ isDark }: { isDark: boolean }) => {
       transition={{ duration: 1.0, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
       style={{ rotateX, rotateY, transformStyle: 'preserve-3d', perspective: 800 }}
     >
-      {/* Subtle glow beneath the letters */}
+      {/* Soft glow beneath */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background: isDark
-            ? 'radial-gradient(ellipse 55% 35% at 50% 85%, rgba(99,102,241,0.18) 0%, transparent 70%)'
-            : 'radial-gradient(ellipse 55% 35% at 50% 85%, rgba(99,102,241,0.10) 0%, transparent 70%)',
-          filter: 'blur(18px)',
+            ? 'radial-gradient(ellipse 55% 30% at 50% 90%, rgba(99,102,241,0.14) 0%, transparent 70%)'
+            : 'radial-gradient(ellipse 55% 30% at 50% 90%, rgba(99,102,241,0.08) 0%, transparent 70%)',
+          filter: 'blur(20px)',
         }}
       />
 
-      {/* Ghost layers for glitch */}
-      <AnimatePresence>
-        {glitch && (
-          <>
-            <motion.div
-              className="absolute inset-0 font-black leading-none pointer-events-none"
-              style={{
-                ...fontStyle,
-                background: isDark ? 'rgba(99,102,241,0.7)' : 'rgba(99,102,241,0.5)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-              initial={{ x: 0, opacity: 0 }}
-              animate={{ x: [0, -7, 5, -3, 0], opacity: [0, 0.6, 0.4, 0.5, 0] }}
-              transition={{ duration: 0.35, times: [0, 0.2, 0.5, 0.8, 1] }}
-            >
-              AV
-            </motion.div>
-            <motion.div
-              className="absolute inset-0 font-black leading-none pointer-events-none"
-              style={{
-                ...fontStyle,
-                background: isDark ? 'rgba(139,92,246,0.6)' : 'rgba(139,92,246,0.4)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-              initial={{ x: 0, opacity: 0 }}
-              animate={{ x: [0, 6, -4, 3, 0], opacity: [0, 0.5, 0.3, 0.4, 0] }}
-              transition={{ duration: 0.35, times: [0, 0.2, 0.5, 0.8, 1], delay: 0.04 }}
-            >
-              AV
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-
-      {/* Main AV text */}
-      <div className="font-black leading-none" style={fontStyle}>
+      {/* Main AV text — shimmer via CSS keyframe */}
+      <div className="av-shimmer font-black leading-none" style={fontStyle}>
         AV
       </div>
     </motion.div>
@@ -558,30 +514,18 @@ const Hero = ({ isDark, toggleTheme }: HeroProps) => {
           transition={{ duration: 1.0, delay: 2.0, ease: [0.22, 1, 0.36, 1] }}
         />
 
-        {/* CTA Buttons */}
+        {/* Single CTA */}
         <motion.div
-          className="mt-8 flex items-center gap-3"
+          className="mt-8"
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 2.2, ease: [0.22, 1, 0.36, 1] }}
         >
           <MagneticButton
-            className={`group flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium tracking-wide transition-all duration-300 ${
+            className={`px-7 py-2.5 rounded-full text-sm font-medium tracking-wide border transition-all duration-300 ${
               isDark
-                ? 'bg-zinc-100 text-zinc-900 hover:bg-white shadow-lg shadow-zinc-900/30'
-                : 'bg-zinc-900 text-zinc-100 hover:bg-zinc-800 shadow-lg shadow-zinc-900/10'
-            }`}
-            onClick={() => scrollTo('projects')}
-          >
-            View Projects
-            <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-          </MagneticButton>
-
-          <MagneticButton
-            className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium tracking-wide border transition-all duration-300 ${
-              isDark
-                ? 'border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-zinc-200'
-                : 'border-zinc-300 text-zinc-500 hover:border-zinc-400 hover:text-zinc-800'
+                ? 'border-zinc-600 text-zinc-300 hover:border-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/60'
+                : 'border-zinc-400 text-zinc-600 hover:border-zinc-600 hover:text-zinc-900 hover:bg-zinc-100/60'
             }`}
             onClick={() => scrollTo('contact')}
           >

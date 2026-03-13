@@ -93,10 +93,10 @@ const ProjectCard = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -3, transition: { duration: 0.18, ease: "easeOut" } }}
-      className={`flex flex-col rounded-xl border p-5 transition-colors duration-200 ${
+      className={`flex flex-col rounded-2xl border p-5 transition-all duration-200 ${
         isDark
-          ? "border-zinc-800 bg-zinc-900 hover:border-zinc-700"
-          : "border-zinc-200 bg-white hover:border-zinc-300 shadow-sm hover:shadow-md"
+          ? "border-zinc-700/50 bg-zinc-900/50 hover:border-zinc-600/60 hover:bg-zinc-900/70 backdrop-blur-sm"
+          : "border-zinc-200/80 bg-white/70 hover:border-zinc-300 hover:bg-white/90 backdrop-blur-sm shadow-sm hover:shadow-md"
       }`}
     >
       {/* Top row */}
@@ -179,7 +179,7 @@ const ProjectCard = ({
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
-            <div className={`rounded-lg p-3 ${isDark ? "bg-zinc-800/80" : "bg-zinc-50"}`}>
+            <div className={`rounded-xl p-3 ${isDark ? "bg-zinc-800/60 border border-zinc-700/40" : "bg-zinc-50/80 border border-zinc-200/80"}`}>
               <div className="flex flex-wrap gap-1.5">
                 {techStack.map((t, i) => (
                   <motion.span

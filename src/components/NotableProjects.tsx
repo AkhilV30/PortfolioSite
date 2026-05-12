@@ -4,15 +4,6 @@ import ProjectCard from './ProjectCard';
 
 const projects = [
   {
-    title: 'ScoutIQ',
-    description:
-      "ScoutIQ is an AI-powered platform that allows athletes to upload training videos and receive intelligent performance insights. Using computer vision and machine learning, it analyzes technique, movement patterns, and biomechanics to generate actionable feedback directly from smartphone-recorded footage.",
-    status: 'In Progress',
-    techStack: ['JavaScript', 'TypeScript', 'Python', 'TensorFlow', 'OpenCV'],
-    demoUrl: '#',
-    codeUrl: '#',
-  },
-  {
     title: 'FishyLottery',
     description:
       'FishyLottery is a Java-based event lottery application that allows users to create, manage, and participate in event-based draws. Designed with structured UML planning, backend logic in Java, and integrated APIs to handle event management and mapping functionality.',
@@ -20,9 +11,33 @@ const projects = [
     techStack: ['Figma', 'UML', 'Java', 'Maps API'],
     codeUrl: 'https://github.com/CMPUT301F25static1/static1-events',
   },
+  {
+    title: 'NBA Analytics Platform',
+    description:
+      'An end-to-end sports analytics platform that predicts NBA game outcomes and over/under totals using ML models trained on historical team statistics and sportsbook odds spanning 2007–08 to present. Includes a Flask web app and CLI for daily predictions with expected value calculations.',
+    status: 'Completed',
+    techStack: ['Python', 'TensorFlow', 'XGBoost', 'Flask', 'SQLite', 'Pandas'],
+    codeUrl: 'https://github.com/AkhilV30/NBA-Analytics-Platform',
+  },
+  {
+    title: 'Industrial Predictive Maintenance',
+    description:
+      'A production-ready ML system for forecasting equipment failures in manufacturing environments, targeting a 35–45% reduction in unplanned downtime. Features Kafka-based streaming, LSTM and Random Forest models, a FastAPI inference service, real-time dashboards, and automated MLOps retraining pipelines.',
+    status: 'Completed',
+    techStack: ['Python', 'PyTorch', 'Kafka', 'FastAPI', 'MLflow', 'Docker', 'Airflow'],
+    codeUrl: 'https://github.com/AkhilV30/industrial-predictive-maintenance',
+  },
+  {
+    title: 'Canadian Housing Pipeline',
+    description:
+      'An ETL data pipeline processing Canadian housing data across 45 cities to demonstrate Apache Spark, Terraform infrastructure-as-code, and Google Cloud Platform services. Provisions GCS, Dataproc, and BigQuery resources via Terraform and runs a PySpark transformation job on the cloud.',
+    status: 'Completed',
+    techStack: ['Python', 'PySpark', 'Terraform', 'GCP', 'BigQuery', 'Dataproc'],
+    codeUrl: 'https://github.com/AkhilV30/Canadian-Housing-Pipeline',
+  },
 ];
 
-const NotableProjects = () => {
+const MyProjects = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
@@ -36,7 +51,7 @@ const NotableProjects = () => {
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="text-xs font-semibold tracking-[0.2em] uppercase mb-6 text-zinc-500"
           >
-            Notable Projects
+            My Projects
           </motion.p>
 
           <motion.h2
@@ -77,4 +92,4 @@ const NotableProjects = () => {
   );
 };
 
-export default NotableProjects;
+export default MyProjects;

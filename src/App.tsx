@@ -1,8 +1,7 @@
 import { motion } from 'framer-motion';
 import Hero from './components/Hero';
 import About from './components/About';
-import NotableProjects from './components/NotableProjects';
-import OtherProjects from './components/OtherProjects';
+import MyProjects from './components/NotableProjects';
 import Blog from './components/Blog';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
@@ -18,8 +17,7 @@ function App() {
     >
       <Hero />
       <About />
-      <NotableProjects />
-      <OtherProjects />
+      <MyProjects />
       <Blog />
       <Contact />
       <Footer />

@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import ProjectCard from './ProjectCard';
+import FeaturedProject from './FeaturedProject';
 
 const projects = [
   {
@@ -76,6 +77,17 @@ const MyProjects = () => {
             Projects showcasing innovation, technical depth, and real-world impact.
           </motion.p>
         </div>
+
+        <FeaturedProject />
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="text-xs font-semibold tracking-[0.2em] uppercase mb-6 text-zinc-500"
+        >
+          More projects
+        </motion.p>
 
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 gap-5"

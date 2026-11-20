@@ -4,7 +4,7 @@ import { useState } from "react";
 interface ProjectCardProps {
   title: string;
   description: string;
-  status: string;
+  status?: string;
   statusColor?: string;
   techStack: string[];
   demoUrl?: string;
@@ -53,7 +53,7 @@ const ProjectCard = ({
 }: ProjectCardProps) => {
   const [stackOpen, setStackOpen] = useState(false);
 
-  const badgeClasses = statusColor ?? getStatusBadge(status);
+  const badgeClasses = statusColor ?? (status ? getStatusBadge(status) : '');
   const hasCode = codeUrl && codeUrl !== "#";
   const hasDemo = demoUrl && demoUrl !== "#";
 
@@ -78,9 +78,9 @@ const ProjectCard = ({
         >
           {title}
         </h3>
-        <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wide uppercase whitespace-nowrap ${badgeClasses}`}>
+        {status && <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wide uppercase whitespace-nowrap ${badgeClasses}`}>
           {status}
-        </span>
+        </span>}
       </div>
 
       <p className="text-sm leading-[1.7] flex-1 mb-5 text-zinc-400">

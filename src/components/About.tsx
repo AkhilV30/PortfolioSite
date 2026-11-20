@@ -61,7 +61,7 @@ const About = () => {
             fontSize: 'clamp(2rem, 5vw, 3.25rem)',
           }}
         >
-          Building at the intersection<br />
+          Building for{' '}
           <span
             style={{
               background: 'linear-gradient(90deg, #a1a1aa, #e4e4e7)',
@@ -70,7 +70,7 @@ const About = () => {
               backgroundClip: 'text',
             }}
           >
-            of tech and curiosity.
+            real problems.
           </span>
         </motion.h2>
 
@@ -95,9 +95,7 @@ const About = () => {
               </span>
               , a CS student specializing in AI and Mathematics at the University of Alberta.
               I'm focused on building products and solutions that are genuinely meaningful and
-              technically sound. Right now that means agentic AI: I&apos;m building{' '}
-              <a href="#projects" className="text-zinc-100 underline decoration-indigo-400/50 underline-offset-4 hover:decoration-emerald-300 transition-colors">Sourced AI</a>,
-              an agentic research agent that grades the evidence behind every answer.
+              technically sound. Right now that means agentic AI.
             </p>
             <p>
               I enjoy learning new things, improving quickly, and working toward making a real

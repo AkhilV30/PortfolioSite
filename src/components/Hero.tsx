@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 
 // ─── Typing animation ────────────────────────────────────────────────────────
 const TypingAnimation = () => {
-  const words = ['Builder.', 'Agentic AI Developer.', 'Sports Enthusiast.'];
+  const words = ['Builder.', 'Developer.', 'Sports Enthusiast.'];
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [wordIndex, setWordIndex] = useState(0);
@@ -33,9 +33,9 @@ const TypingAnimation = () => {
   }, [displayText, isDeleting, wordIndex]);
 
   return (
-    <div className="h-9 flex items-center justify-center">
+    <div className="h-12 md:h-14 flex items-center justify-center">
       <span
-        className="text-lg font-light tracking-[0.12em] text-zinc-500"
+        className="text-2xl md:text-3xl font-light tracking-[0.12em] text-zinc-400"
         style={{ fontFamily: "'DM Sans', sans-serif" }}
       >
         {displayText}
@@ -205,41 +205,6 @@ const StatusBadge = () => (
   </motion.div>
 );
 
-// ─── Magnetic CTA ─────────────────────────────────────────────────────────────
-const MagneticButton = ({
-  children, className, onClick,
-}: {
-  children: React.ReactNode; className: string; onClick?: () => void;
-}) => {
-  const ref = useRef<HTMLButtonElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 180, damping: 22 });
-  const sy = useSpring(y, { stiffness: 180, damping: 22 });
-
-  const onMove = (e: React.MouseEvent) => {
-    const el = ref.current;
-    if (!el) return;
-    const { left, top, width, height } = el.getBoundingClientRect();
-    x.set((e.clientX - left - width / 2) * 0.22);
-    y.set((e.clientY - top - height / 2) * 0.22);
-  };
-
-  return (
-    <motion.button
-      ref={ref}
-      onMouseMove={onMove}
-      onMouseLeave={() => { x.set(0); y.set(0); }}
-      style={{ x: sx, y: sy }}
-      whileTap={{ scale: 0.97 }}
-      className={className}
-      onClick={onClick}
-    >
-      {children}
-    </motion.button>
-  );
-};
-
 // ─── Scroll indicator ────────────────────────────────────────────────────────
 const ScrollIndicator = ({ onClick }: { onClick: () => void }) => (
   <motion.div
@@ -407,20 +372,6 @@ const Hero = () => {
           transition={{ duration: 1.0, delay: 1.9, ease: [0.22, 1, 0.36, 1] }}
         />
 
-        {/* CTA */}
-        <motion.div
-          className="mt-8"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 2.1, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <MagneticButton
-            className="px-7 py-2.5 rounded-full text-sm font-medium tracking-wide border border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-zinc-100 hover:bg-zinc-900/50 transition-all duration-250"
-            onClick={() => scrollTo('contact')}
-          >
-            Say Hello
-          </MagneticButton>
-        </motion.div>
       </div>
 
       {/* SOCIAL LINKS */}

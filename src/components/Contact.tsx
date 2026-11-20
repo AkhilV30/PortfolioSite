@@ -1,16 +1,11 @@
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, MapPin } from 'lucide-react';
 
 const contactItems = [
   {
     Icon: Mail,
     label: 'Email',
     lines: ['akhil.vishnubhotla2005@gmail.com'],
-  },
-  {
-    Icon: Phone,
-    label: 'Phone',
-    lines: ['Canada: +1 (825) 523-3824', 'India (WhatsApp): +91 8530593824'],
   },
   {
     Icon: MapPin,
@@ -58,7 +53,7 @@ const Contact = () => {
           Open to feedback, collaboration, and new ideas.
         </motion.p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {contactItems.map(({ Icon, label, lines }, i) => (
             <motion.div
               key={label}

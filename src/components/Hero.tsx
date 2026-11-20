@@ -1,5 +1,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useEffect, useState, useRef, useCallback } from 'react';
+import { ArrowDown } from 'lucide-react';
+import { EASE, scrollToId, useFinePointer } from '../lib/ui';
 
 // ─── Typing animation ────────────────────────────────────────────────────────
 const TypingAnimation = () => {
@@ -105,20 +107,6 @@ const Orbs = () => (
   </>
 );
 
-// ─── Scan line ───────────────────────────────────────────────────────────────
-const ScanLine = () => (
-  <motion.div
-    className="absolute left-0 right-0 pointer-events-none z-20"
-    style={{
-      height: 1,
-      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent)',
-    }}
-    initial={{ top: '0%', opacity: 0 }}
-    animate={{ top: ['0%', '100%'], opacity: [0, 1, 0] }}
-    transition={{ duration: 1.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-  />
-);
-
 // ─── 3-D tilt + metallic shimmer monogram ────────────────────────────────────
 const AVMonogram = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -187,13 +175,6 @@ const AVMonogram = () => {
   );
 };
 
-// ─── Nav ──────────────────────────────────────────────────────────────────────
-const NAV_ITEMS = [
-  { name: 'About', id: 'about' },
-  { name: 'Projects', id: 'projects' },
-  { name: 'Contact', id: 'contact' },
-];
-
 // ─── Cursor spotlight ─────────────────────────────────────────────────────────
 const CursorSpotlight = () => {
   const x = useMotionValue(-500);
@@ -221,58 +202,37 @@ const CursorSpotlight = () => {
   );
 };
 
+// ─── Slowly shifting gradient wash ───────────────────────────────────────────
+const ShiftingGradient = () => (
+  <motion.div
+    className="absolute inset-0 pointer-events-none opacity-70"
+    style={{
+      background:
+        'linear-gradient(120deg, rgba(99,102,241,0.10), rgba(9,9,11,0) 35%, rgba(16,185,129,0.06) 60%, rgba(9,9,11,0) 80%, rgba(139,92,246,0.09))',
+      backgroundSize: '300% 300%',
+    }}
+    animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
+    transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+  />
+);
+
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 const Hero = () => {
-  const scrollTo = (id: string) => {
-    if (id === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
-    else document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const finePointer = useFinePointer();
 
   const name = 'Akhil Vishnubhotla';
   const letters = name.split('');
 
   return (
-    <section className="min-h-screen flex flex-col relative overflow-hidden bg-zinc-950">
+    <section id="home" className="min-h-[100svh] flex flex-col relative overflow-hidden bg-zinc-950">
       <GrainOverlay />
       <GridBackground />
       <Orbs />
-      <CursorSpotlight />
-      <ScanLine />
-
-      {/* NAV */}
-      <motion.nav
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-5"
-        initial={{ opacity: 0, y: -12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <button
-          onClick={() => scrollTo('home')}
-          className="text-sm font-bold tracking-[0.25em] uppercase text-zinc-100 transition-opacity duration-200 hover:opacity-50"
-          style={{ fontFamily: "'DM Serif Display', serif" }}
-        >
-          AV
-        </button>
-
-        <div className="flex items-center gap-1 px-2 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/70 backdrop-blur-md">
-          {NAV_ITEMS.map((item, i) => (
-            <motion.button
-              key={item.id}
-              onClick={() => scrollTo(item.id)}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 + i * 0.06 }}
-              whileTap={{ scale: 0.96 }}
-              className="px-4 py-1.5 rounded-full text-xs font-medium tracking-wide text-zinc-500 hover:text-zinc-100 hover:bg-zinc-800 transition-all duration-200"
-            >
-              {item.name}
-            </motion.button>
-          ))}
-        </div>
-      </motion.nav>
+      <ShiftingGradient />
+      {finePointer && <CursorSpotlight />}
 
       {/* HERO CONTENT */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 pt-20 pb-28 relative z-10">
+      <div className="flex-1 flex flex-col items-center justify-center px-6 pt-24 pb-24 relative z-10">
 
         <AVMonogram />
 
@@ -315,18 +275,38 @@ const Hero = () => {
           <TypingAnimation />
         </motion.div>
 
-        {/* Divider */}
-        <motion.div
-          className="mt-8 h-px bg-zinc-800 w-0"
-          animate={{ width: '5rem' }}
-          transition={{ duration: 1.0, delay: 1.9, ease: [0.22, 1, 0.36, 1] }}
-        />
+        {/* Intro */}
+        <motion.p
+          className="mt-8 max-w-xl text-center text-[15px] sm:text-base leading-relaxed text-zinc-400"
+          style={{ fontWeight: 300 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 1.9, ease: EASE }}
+        >
+          CS student in AI and Mathematics at the University of Alberta, building AI systems
+          and data products that solve real problems.
+        </motion.p>
 
+        {/* CTA */}
+        <motion.div
+          className="mt-10"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 2.2, ease: EASE }}
+        >
+          <button
+            onClick={() => scrollToId('projects')}
+            className="group inline-flex items-center gap-2 rounded-full pl-6 pr-5 py-3 text-sm font-medium bg-zinc-100 text-zinc-900 hover:bg-white shadow-[0_0_40px_-10px_rgba(165,180,252,0.45)] transition-colors"
+          >
+            View work
+            <ArrowDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
+          </button>
+        </motion.div>
       </div>
 
       {/* SOCIAL LINKS */}
       <motion.div
-        className="absolute bottom-8 left-8 flex flex-col items-center gap-4 z-10"
+        className="absolute bottom-8 left-8 hidden sm:flex flex-col items-center gap-4 z-10"
         initial={{ opacity: 0, x: -10 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6, delay: 2.4, ease: [0.22, 1, 0.36, 1] }}

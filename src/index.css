@@ -167,10 +167,12 @@ body {
 }
 
 /* Smooth focus states */
-*:focus {
-  outline: 2px solid rgba(255, 255, 255, 0.3);
+*:focus { outline: none; }
+*:focus-visible {
+  outline: 2px solid rgba(165, 180, 252, 0.5);
   outline-offset: 2px;
 }
+input:focus-visible { outline: none; }
 
 /* Metallic AV shimmer sweep */
 @keyframes metalShimmer {
@@ -193,4 +195,23 @@ body {
 
 .will-change-opacity {
   will-change: opacity;
+}
+/* Technology marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 45s linear infinite;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .marquee-track, .av-shimmer { animation: none !important; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

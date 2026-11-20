@@ -15,7 +15,7 @@ const About = () => {
   return (
     <section
       id="about"
-      className="py-28 px-6 relative overflow-hidden bg-zinc-950"
+      className="py-24 sm:py-32 relative overflow-hidden bg-zinc-950"
     >
       {/* Dot grid */}
       <div
@@ -40,7 +40,7 @@ const About = () => {
         }}
       />
 
-      <div className="max-w-4xl mx-auto relative z-10" ref={ref}>
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 relative z-10" ref={ref}>
 
         <motion.p
           initial={{ opacity: 0, y: 10 }}
@@ -79,7 +79,7 @@ const About = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
-          className="rounded-2xl border border-zinc-700/40 bg-zinc-900/40 backdrop-blur-md p-8 md:p-10"
+          className="max-w-4xl rounded-2xl border border-zinc-700/40 bg-zinc-900/40 backdrop-blur-md p-6 sm:p-8 md:p-10"
         >
           <div
             className="space-y-5 text-base md:text-lg leading-[1.85] mb-10 text-zinc-300"

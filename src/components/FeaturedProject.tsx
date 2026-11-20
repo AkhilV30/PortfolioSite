@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { ArrowUpRight, ShieldCheck, Sparkles, UserCheck, FileSearch } from 'lucide-react';
+import { useUI } from '../lib/ui';
+import { ArrowUpRight, ArrowRight, ShieldCheck, Sparkles, UserCheck, FileSearch } from 'lucide-react';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -123,7 +124,7 @@ const ClaimPreview = ({ active }: { active: boolean }) => (
 );
 
 // ─── Pipeline strip with a travelling pulse ─────────────────────────────────
-const Pipeline = ({ active }: { active: boolean }) => (
+export const Pipeline = ({ active }: { active: boolean }) => (
   <div className="relative mt-10">
     <div className="flex items-center justify-between mb-4">
       <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-zinc-500">
@@ -167,10 +168,11 @@ const Pipeline = ({ active }: { active: boolean }) => (
 
 const FeaturedProject = () => {
   const ref = useRef(null);
+  const { openCase } = useUI();
   const isInView = useInView(ref, { once: true, margin: '-120px' });
 
   return (
-    <div ref={ref} className="relative mb-20">
+    <div ref={ref} className="relative mb-16">
       {/* Rotating conic border glow */}
       <div className="relative rounded-3xl p-px overflow-hidden">
         <motion.div
@@ -266,8 +268,9 @@ const FeaturedProject = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.6, ease: EASE }}
-                className="flex flex-wrap items-center gap-3"
+                className="space-y-5"
               >
+                <div className="flex flex-wrap items-center gap-3">
                 <motion.a
                   href="https://www.sourcedai.app/"
                   target="_blank"
@@ -279,6 +282,14 @@ const FeaturedProject = () => {
                   Visit sourcedai.app
                   <ArrowUpRight className="h-4 w-4" />
                 </motion.a>
+                <button
+                  onClick={() => openCase('sourced-ai')}
+                  className="group/cs inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium border border-zinc-700 text-zinc-300 hover:border-zinc-500 hover:text-zinc-100 transition-colors"
+                >
+                  Read case study
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/cs:translate-x-0.5" />
+                </button>
+                </div>
                 <div className="flex flex-wrap gap-1.5">
                   {STACK.map(t => (
                     <span key={t} className="rounded-md px-2 py-1 text-[11px] font-medium bg-zinc-800/80 text-zinc-400">
@@ -294,6 +305,7 @@ const FeaturedProject = () => {
               animate={isInView ? { opacity: 1, y: 0, rotate: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.25, ease: EASE }}
               whileHover={{ y: -4 }}
+              className="lg:sticky lg:top-24"
             >
               <ClaimPreview active={isInView} />
             </motion.div>

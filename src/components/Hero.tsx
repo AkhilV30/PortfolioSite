@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 
 // ─── Typing animation ────────────────────────────────────────────────────────
 const TypingAnimation = () => {
-  const words = ['Builder.', 'Agentic AI Developer.', 'Healthcare AI.', 'Sports Enthusiast.'];
+  const words = ['Builder.', 'Agentic AI Developer.', 'Sports Enthusiast.'];
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [wordIndex, setWordIndex] = useState(0);
@@ -274,7 +274,6 @@ const ScrollIndicator = ({ onClick }: { onClick: () => void }) => (
 // ─── Nav ──────────────────────────────────────────────────────────────────────
 const NAV_ITEMS = [
   { name: 'About', id: 'about' },
-  { name: 'Focus', id: 'focus' },
   { name: 'Projects', id: 'projects' },
   { name: 'Contact', id: 'contact' },
 ];

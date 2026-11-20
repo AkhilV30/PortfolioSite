@@ -4,7 +4,7 @@ import { useRef } from 'react';
 const STATS = [
   { label: 'University', value: 'Alberta' },
   { label: 'Specializing', value: 'AI & Math' },
-  { label: 'Focus', value: 'Agentic AI in Healthcare' },
+  { label: 'Focus', value: 'Agentic AI' },
   { label: 'Outside CS', value: 'Sports' },
 ];
 
@@ -95,9 +95,9 @@ const About = () => {
               </span>
               , a CS student specializing in AI and Mathematics at the University of Alberta.
               I'm focused on building products and solutions that are genuinely meaningful and
-              technically sound. Right now that means agentic AI in healthcare, where I&apos;m building{' '}
+              technically sound. Right now that means agentic AI: I&apos;m building{' '}
               <a href="#projects" className="text-zinc-100 underline decoration-indigo-400/50 underline-offset-4 hover:decoration-emerald-300 transition-colors">Sourced AI</a>,
-              a research agent that grades its evidence and knows when to say &ldquo;I don&apos;t know&rdquo;.
+              an agentic research agent that grades the evidence behind every answer.
             </p>
             <p>
               I enjoy learning new things, improving quickly, and working toward making a real

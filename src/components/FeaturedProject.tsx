@@ -1,6 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { ArrowUpRight, ShieldCheck, Sparkles, UserCheck, FileSearch, CircleSlash } from 'lucide-react';
+import { ArrowUpRight, ShieldCheck, Sparkles, UserCheck, FileSearch } from 'lucide-react';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -33,11 +33,6 @@ const HIGHLIGHTS = [
     Icon: UserCheck,
     title: 'Two grades on every claim',
     body: 'How strong the evidence is, and whether it was studied in people like you, with every mismatch named.',
-  },
-  {
-    Icon: CircleSlash,
-    title: 'Knows when to say "I don\'t know"',
-    body: 'Abstains with a reason when sources are weak, conflict or don\'t fit, and measures how often abstaining was right.',
   },
   {
     Icon: ShieldCheck,
@@ -207,7 +202,7 @@ const FeaturedProject = () => {
                 className="inline-flex items-center gap-2 mb-5 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 text-[10px] font-semibold tracking-[0.18em] uppercase"
               >
                 <Sparkles className="h-3 w-3" />
-                Featured project · Agentic AI in healthcare
+                Featured project · Agentic AI research agent
               </motion.div>
 
               <motion.h3
@@ -234,8 +229,7 @@ const FeaturedProject = () => {
                 className="text-lg text-zinc-200 mb-4 leading-snug"
                 style={{ fontWeight: 400 }}
               >
-                An AI research agent that shows its evidence, checks whether it fits you, and says
-                "I don't know" when it should.
+                An agentic AI research agent that shows its evidence and checks whether it fits you.
               </motion.p>
 
               <motion.p
@@ -247,8 +241,7 @@ const FeaturedProject = () => {
                 Sourced AI answers questions about type 2 diabetes medications from a hand-picked
                 library of clinical guidelines, drug monographs and trials. Every claim carries two
                 grades: how strong the evidence is, and whether that evidence was studied in people
-                like you. When the sources don't settle a question, it says what's missing instead
-                of guessing.
+                like you.
               </motion.p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
@@ -258,7 +251,7 @@ const FeaturedProject = () => {
                     initial={{ opacity: 0, y: 12 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.45, delay: 0.3 + i * 0.08, ease: EASE }}
-                    className="group"
+                    className={`group ${i === HIGHLIGHTS.length - 1 && HIGHLIGHTS.length % 2 ? 'sm:col-span-2' : ''}`}
                   >
                     <div className="flex items-center gap-2 mb-1.5">
                       <Icon className="h-4 w-4 text-indigo-300 group-hover:text-emerald-300 transition-colors duration-200" />

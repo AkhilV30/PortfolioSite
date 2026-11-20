@@ -1,5 +1,4 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
 import { useEffect, useState, useRef, useCallback } from 'react';
 
 // ─── Typing animation ────────────────────────────────────────────────────────
@@ -188,54 +187,6 @@ const AVMonogram = () => {
   );
 };
 
-// ─── Status badge ─────────────────────────────────────────────────────────────
-const StatusBadge = () => (
-  <motion.div
-    initial={{ opacity: 0, y: -8 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.55, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-    className="mb-8 inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-medium tracking-wide border border-zinc-800 bg-zinc-900/80 text-zinc-400"
-    style={{ backdropFilter: 'blur(12px)' }}
-  >
-    <span className="relative flex h-2 w-2">
-      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-70" />
-      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-    </span>
-    Available for opportunities
-  </motion.div>
-);
-
-// ─── Scroll indicator ────────────────────────────────────────────────────────
-const ScrollIndicator = ({ onClick }: { onClick: () => void }) => (
-  <motion.div
-    className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer group"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ delay: 2.6, duration: 0.8 }}
-    onClick={onClick}
-  >
-    {[0, 0.55, 1.1].map((delay, i) => (
-      <motion.div
-        key={i}
-        className="absolute rounded-full border border-zinc-700/50"
-        style={{ width: 34, height: 34 }}
-        animate={{ scale: [1, 2.0], opacity: [0.5, 0] }}
-        transition={{ duration: 2.2, repeat: Infinity, delay, ease: 'easeOut' }}
-      />
-    ))}
-    <span className="text-[10px] tracking-[0.22em] uppercase relative z-10 text-zinc-600 group-hover:text-zinc-400 transition-colors duration-200">
-      Scroll
-    </span>
-    <motion.div
-      animate={{ y: [0, 5, 0] }}
-      transition={{ duration: 2.0, repeat: Infinity, ease: 'easeInOut' }}
-      className="relative z-10"
-    >
-      <ChevronDown className="w-4 h-4 text-zinc-600 group-hover:text-zinc-400 transition-colors duration-200" />
-    </motion.div>
-  </motion.div>
-);
-
 // ─── Nav ──────────────────────────────────────────────────────────────────────
 const NAV_ITEMS = [
   { name: 'About', id: 'about' },
@@ -323,7 +274,6 @@ const Hero = () => {
       {/* HERO CONTENT */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 pt-20 pb-28 relative z-10">
 
-        <StatusBadge />
         <AVMonogram />
 
         {/* Name — staggered letter reveal */}
@@ -410,7 +360,6 @@ const Hero = () => {
         <div className="w-px h-10 bg-zinc-800" />
       </motion.div>
 
-      <ScrollIndicator onClick={() => scrollTo('about')} />
     </section>
   );
 };
